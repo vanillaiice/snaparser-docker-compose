@@ -1,0 +1,26 @@
+services:
+  snaparser_server:
+    build: https://github.com/vanillaiice/snaparser_server.git
+    image: vanillaiice/snaparser_server
+    command: ["--http", "--log", "--port", "9999", "--endpoint", "/parse"]
+    ports:
+      - "9999:9999"
+    restart: unless-stopped
+
+  snaparser_webui_server:
+    build:
+      context: https://github.com/vanillaiice/snaparser_webui.git
+      args:
+        API_URL: http://localhost:9999/parse
+    image: vanillaiice/snaparser_webui_server
+    depends_on:
+      - snaparser_server
+    ports:
+      - "7788:7788"
+    volumes:
+      - caddy_data:/data
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
