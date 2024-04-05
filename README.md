@@ -19,7 +19,7 @@ $ docker compose down
 
 ## Build images
 
-```
+```sh
 $ git clone https://github.com/vanillaiice/snaparser-docker-compose
 $ cd snaparser-docker-compose
 $ docker compose -f docker-compose-build.yml up -d --build
